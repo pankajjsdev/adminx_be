@@ -48,7 +48,7 @@ exports.createDocument = async (data) => {
   try {
     return await episodesModel.create(data);
   } catch (error) {
-    throw new Error('Error creating episodes');
+    throw new Error(`Error creating episodes ${error.message}`);
   }
 };
 

@@ -1,12 +1,10 @@
 const router = require("express").Router()
-const userRouter = require("../module/user/userRoute")
-const carouselRouter = require("../module/carousel/carouselRoute")
-const categoryRoute = require("../module/category/categoryRoute")
+const episodesRoute = require("../module/episodes/episodesRoute")
+
 
 // routes
-router.use('/user', userRouter)
-router.use('/carousel', carouselRouter)
-router.use('/category', categoryRoute)
+router.use('/episodes', episodesRoute)
+
 
 
 // export router

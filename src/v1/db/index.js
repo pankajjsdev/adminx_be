@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // Get MongoDB URI from environment variable
-const uri = `${process.env.MONGODB_URL}/${process.env.DB_NAME}`;
+const uri = `${process.env.MONGODB_URI}/${process.env.DATABASE_NAME}`;
 
 console.log("connecting to db...", uri);
 const connectDB = async () => {
