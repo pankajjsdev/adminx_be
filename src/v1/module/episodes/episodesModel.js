@@ -38,6 +38,10 @@ const episodesSchema = new Schema(
     transcript: { type: String, default: '' },
     isFeatured: { type: Boolean, default: false },
     externalLinks: [{ type: String, default: [] }],
+    categories: [{
+      type:Schema.Types.ObjectId,
+      ref: 'categoriesModel'
+    }]
   },
   { timestamps: true }
 );

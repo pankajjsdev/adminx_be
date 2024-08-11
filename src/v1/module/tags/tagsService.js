@@ -1,6 +1,6 @@
 
-const episodesModel = require('./episodesModel');
-var logger = require('../../config/logger');
+const tagsModel = require('./tagsModel');
+const logger = require('../../config/logger');
 
 // Service function to fetch all documents
 exports.getAllDocuments = async (req) => {
@@ -11,16 +11,14 @@ exports.getAllDocuments = async (req) => {
     const searchQuery = req.query.search || '';
 
     const options = {
-      page: page,
-      limit: limit,
-      customLabels: {
-        docs: 'list'
-      },
-      projection: {},
-      pagination: limit ? true : false,
-      populate: 'categories',
-    };
-    
+        page: page,
+        limit: limit,
+        customLabels: {
+          docs: 'list'
+        },
+        projection: {},
+        pagination: limit ? true : false,
+      };
 
     // Building the query object for search
     const query = {};
@@ -30,50 +28,50 @@ exports.getAllDocuments = async (req) => {
         { 'name': { $regex: searchQuery, $options: 'i' } }
       ];
     }
-
-    return episodesModel.paginate(query, options);
+    
+    return tagsModel.paginate(query, options);
   } catch (error) {
-    logger.error(error)
-    throw new Error('Error fetching episodes');
+   logger.error(error)
+    throw new Error('Error fetching tags');
   }
 };
 
 // Service function to fetch a single document by ID
 exports.getDocumentById = async (id) => {
   try {
-    return await episodesModel.findById(id);
+    return await tagsModel.findById(id);
   } catch (error) {
     logger.error(error)
-    throw new Error('Error fetching episodes by ID');
+    throw new Error('Error fetching tags by ID');
   }
 };
 
 // Service function to create a new document
 exports.createDocument = async (data) => {
   try {
-    return await episodesModel.create(data);
+    return await tagsModel.create(data);
   } catch (error) {
     logger.error(error)
-    throw new Error(`Error creating episodes ${error.message}`);
+    throw new Error('Error creating tags');
   }
 };
 
 // Service function to update a document by ID
 exports.updateDocument = async (id, data) => {
   try {
-    return await episodesModel.findByIdAndUpdate(id, data, { new: true, runValidators: true });
+    return await tagsModel.findByIdAndUpdate(id, data, { new: true, runValidators: true });
   } catch (error) {
     logger.error(error)
-    throw new Error('Error updating episodes');
+    throw new Error('Error updating tags');
   }
 };
 
 // Service function to delete a document by ID
 exports.deleteDocument = async (id) => {
   try {
-    return await episodesModel.findByIdAndDelete(id);
+    return await tagsModel.findByIdAndDelete(id);
   } catch (error) {
     logger.error(error)
-    throw new Error('Error deleting episodes');
+    throw new Error('Error deleting tags');
   }
 };
