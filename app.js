@@ -2,14 +2,17 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+var logger = require('./src/v1/config/logger');
 var cors = require('cors')
+require("dotenv").config();
 
 var indexRouter = require('./src/v1/routes');
 var cors = require('cors')
-require("dotenv").config();
-const db = require("./src/v1/db");
+var db = require("./src/v1/db");
+var authenticate = require("./src/v1/config/basicAuth")
 
+
+// create a express app
 var app = express();
 
 db()
@@ -17,17 +20,21 @@ app.use(cors())
 
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'ejs');
 
-app.use(logger('dev'));
+app.use((req, res, next) => {
+  logger.info(`${req.method} ${req.url}`);
+  next();
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(authenticate)
+
 
 app.use('/api/v1', indexRouter);
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

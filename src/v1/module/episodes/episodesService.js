@@ -1,5 +1,6 @@
 
 const episodesModel = require('./episodesModel');
+var logger = require('../../config/logger');
 
 // Service function to fetch all documents
 exports.getAllDocuments = async (req) => {
@@ -10,14 +11,14 @@ exports.getAllDocuments = async (req) => {
     const searchQuery = req.query.search || '';
 
     const options = {
-        page: page,
-        limit: limit,
-        customLabels: {
-          docs: 'list'
-        },
-        projection: {},
-        pagination: limit ? true : false,
-      };
+      page: page,
+      limit: limit,
+      customLabels: {
+        docs: 'list'
+      },
+      projection: {},
+      pagination: limit ? true : false,
+    };
 
     // Building the query object for search
     const query = {};
@@ -27,9 +28,10 @@ exports.getAllDocuments = async (req) => {
         { 'name': { $regex: searchQuery, $options: 'i' } }
       ];
     }
-    
+
     return episodesModel.paginate(query, options);
   } catch (error) {
+    logger.error(error)
     throw new Error('Error fetching episodes');
   }
 };
@@ -39,6 +41,7 @@ exports.getDocumentById = async (id) => {
   try {
     return await episodesModel.findById(id);
   } catch (error) {
+    logger.error(error)
     throw new Error('Error fetching episodes by ID');
   }
 };
@@ -48,6 +51,7 @@ exports.createDocument = async (data) => {
   try {
     return await episodesModel.create(data);
   } catch (error) {
+    logger.error(error)
     throw new Error(`Error creating episodes ${error.message}`);
   }
 };
@@ -57,6 +61,7 @@ exports.updateDocument = async (id, data) => {
   try {
     return await episodesModel.findByIdAndUpdate(id, data, { new: true, runValidators: true });
   } catch (error) {
+    logger.error(error)
     throw new Error('Error updating episodes');
   }
 };
@@ -66,6 +71,7 @@ exports.deleteDocument = async (id) => {
   try {
     return await episodesModel.findByIdAndDelete(id);
   } catch (error) {
+    logger.error(error)
     throw new Error('Error deleting episodes');
   }
 };

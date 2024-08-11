@@ -1,4 +1,6 @@
 const multer = require('multer');
+var logger = require('./logger');
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './public/images/my-uploads');
@@ -18,21 +20,24 @@ module.exports = (req, res, next) => {
     upload(req, res, function (err) {
         if (err instanceof multer.MulterError) {
             // A Multer error occurred when uploading
+            logger.error(err)
             return res.status(400).json({ message: 'Multer error: ' + err.message });
         } else if (err) {
             // An unknown error occurred
+            logger.error(err)
             console.error(err);
+
             return res.status(500).json({ message: 'An error occurred while uploading the file' });
         }
         // No error occurred, proceed to the next middleware
         if (req.file) {
             console.log("fileeeeeeeee", req.file)
-            const { originalname, mimetype, size, path , filename} = req.file
+            const { originalname, mimetype, size, path, filename } = req.file
             req.image = {
                 originalname,
                 mimetype,
                 size,
-                path:`/images/my-uploads/${filename}`
+                path: `/images/my-uploads/${filename}`
             }
         }
         next();

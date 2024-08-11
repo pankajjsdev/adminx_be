@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const logger = require('../config/logger');
+
 
 // Get MongoDB URI from environment variable
 const uri = `${process.env.MONGODB_URI}/${process.env.DATABASE_NAME}`;
@@ -10,6 +12,7 @@ const connectDB = async () => {
     console.log("Connected to MongoDB");
   } catch (err) {
     console.error("Error connecting to MongoDB:", err.message);
+    logger.error(err)
     process.exit(1); // Exiting the process with code 1 upon connection failure
   }
 };

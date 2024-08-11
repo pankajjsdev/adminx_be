@@ -1,8 +1,9 @@
 const { errors, success } = require("./messages.json");
+var logger = require('../config/logger');
 
 
 function sendErrorResponse(res, statusCode, error) {
-  console.log("got an error",  error)
+  logger.error(error.message)
   res.status(statusCode).json({ success: false, error: error.message || error || errors.unexpectedError  });
 }
 

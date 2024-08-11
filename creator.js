@@ -149,6 +149,7 @@ module.exports = router;
 // Service file content
 const serviceFile = `
 const ${folderName}Model = require('./${folderName}Model');
+const logger = require('../../config/logger');
 
 // Service function to fetch all documents
 exports.getAllDocuments = async (req) => {
@@ -179,6 +180,7 @@ exports.getAllDocuments = async (req) => {
     
     return ${folderName}Model.paginate(query, options);
   } catch (error) {
+   logger.error(error)
     throw new Error('Error fetching ${folderName}');
   }
 };
@@ -188,6 +190,7 @@ exports.getDocumentById = async (id) => {
   try {
     return await ${folderName}Model.findById(id);
   } catch (error) {
+    logger.error(error)
     throw new Error('Error fetching ${folderName} by ID');
   }
 };
@@ -197,6 +200,7 @@ exports.createDocument = async (data) => {
   try {
     return await ${folderName}Model.create(data);
   } catch (error) {
+    logger.error(error)
     throw new Error('Error creating ${folderName}');
   }
 };
@@ -206,6 +210,7 @@ exports.updateDocument = async (id, data) => {
   try {
     return await ${folderName}Model.findByIdAndUpdate(id, data, { new: true, runValidators: true });
   } catch (error) {
+    logger.error(error)
     throw new Error('Error updating ${folderName}');
   }
 };
@@ -215,6 +220,7 @@ exports.deleteDocument = async (id) => {
   try {
     return await ${folderName}Model.findByIdAndDelete(id);
   } catch (error) {
+    logger.error(error)
     throw new Error('Error deleting ${folderName}');
   }
 };
