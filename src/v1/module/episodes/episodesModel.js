@@ -27,7 +27,7 @@ const episodesSchema = new Schema(
     twitter: { type: String, default: '' },
     type: { type: String, enum: ['paid', 'free'], required: true },
     category: { type: String, default: '' },
-    tags: [{ type: String, default: [] }],
+    tags: [{ type:Schema.Types.ObjectId, ref:'tagsModel', default: [] }],
     coverImage: { type: String, default: '' },
     episodeNumber: { type: Number, default: null },
     duration: { type: String, default: '' },

@@ -18,7 +18,10 @@ exports.getAllDocuments = async (req) => {
       },
       projection: {},
       pagination: limit ? true : false,
-      populate: 'categories',
+      populate: [
+        { path: 'categories' }, 
+        { path: 'tags' } 
+      ],
     };
     
 
