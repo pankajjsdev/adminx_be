@@ -22,7 +22,7 @@ const episodesSchema = new Schema(
     notes: { type: String, default: '' },
     publicationDate: { type: Date, required: true },
     shortDescription: { type: String, default: '' },
-    status: { type: String, enum: ['draft', 'active', 'inactive', 'pending'], default: 'draft' },
+    status: { type: String, enum: ['draft', 'active', 'inactive', 'pending', 'delete'], default: 'draft' },
     title: { type: String, required: true },
     twitter: { type: String, default: '' },
     type: { type: String, enum: ['paid', 'free'], required: true },
