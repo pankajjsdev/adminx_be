@@ -6,8 +6,20 @@ const { body, validationResult } = require('express-validator');
 // Validation rules for creating a new document
 exports.validateCreateDocument = [
   body('email').notEmpty().withMessage('email is required field'),
+  body('email').notEmpty().isEmail().withMessage('Invalid email address')
+  .custom(async (email) => {
+    const user = await userService.getDocumentByEmail(email);
+    if (user) {
+      throw new Error('Email already in use');
+    }
+  }),
   body('name').notEmpty().withMessage('name is required field'),
+];
+
+exports.validateLogin = [
+  body('email').notEmpty().withMessage('email is required field'),
   body('email').notEmpty().isEmail().withMessage('Invalid email address'),
+  body('password').notEmpty().withMessage('name is required field'),
 ];
 
 // Validation rules for updating a document

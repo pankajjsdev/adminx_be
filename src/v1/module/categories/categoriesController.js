@@ -2,9 +2,12 @@
 const categoriesService = require('./categoriesService');
 const { sendErrorResponse, sendSuccessResponse } = require('../../common/responseHelper');
 const messages = require('../../common/messages.json');
+const {isAdmin, authenticate} = require("../../config/Auth")
 
 // Controller for handling GET requests to fetch all documents
 exports.getAllDocuments = [
+  authenticate,
+  isAdmin, 
    async (req, res) => {
   try {
     const documents = await categoriesService.getAllDocuments(req);
@@ -16,6 +19,9 @@ exports.getAllDocuments = [
 
 // Controller for handling GET requests to fetch a single document by ID
 exports.getDocumentById = [
+  authenticate,
+  isAdmin, 
+  authenticate,
   async (req, res) => {
   try {
     const document = await categoriesService.getDocumentById(req.params.id);
@@ -30,6 +36,8 @@ exports.getDocumentById = [
 
 // Controller for handling POST requests to create a new document
 exports.createDocument = [
+  authenticate,
+  isAdmin, 
   async (req, res) => {
   try {
     const document = await categoriesService.createDocument(req.body);
@@ -41,6 +49,8 @@ exports.createDocument = [
 
 // Controller for handling PUT requests to update a document by ID
 exports.updateDocument = [
+  authenticate,
+  isAdmin, 
   async (req, res) => {
   try {
     const document = await categoriesService.updateDocument(req.params.id, req.body);
@@ -55,6 +65,8 @@ exports.updateDocument = [
 
 // Controller for handling DELETE requests to delete a document by ID
 exports.deleteDocument =[
+  authenticate,
+  isAdmin, 
    async (req, res) => {
   try {
     const document = await categoriesService.deleteDocument(req.params.id);

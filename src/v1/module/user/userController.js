@@ -2,15 +2,15 @@
 const userService = require('./userService');
 const { sendErrorResponse, sendSuccessResponse } = require('../../common/responseHelper');
 const messages = require('../../common/messages.json');
-const {validateCreateDocument, checkValidationResult} = require("./userValidator")
+const {validateCreateDocument, checkValidationResult, validateLogin} = require("./userValidator")
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
 const {isAdmin, authenticate} = require("../../config/Auth")
 
 // Controller for handling GET requests to fetch all documents
 exports.getAllDocuments = [
-  // authenticate,
-  // isAdmin,
+  authenticate,
+  isAdmin,
    async (req, res) => {
   try {
     const documents = await userService.getAllDocuments(req);
@@ -22,6 +22,7 @@ exports.getAllDocuments = [
 
 // Controller for handling GET requests to fetch a single document by ID
 exports.getDocumentById = [
+  authenticate,
   async (req, res) => {
   try {
     const document = await userService.getDocumentById(req.params.id);
@@ -36,8 +37,8 @@ exports.getDocumentById = [
 
 // Controller for handling  requests for login
 exports.login = [
-  // validateLogin,
-  // checkValidationResult,
+  validateLogin,
+  checkValidationResult,
   async (req, res) => {
     try {
       const user = await userService.getDocumentByEmail(req.body.email);
@@ -72,8 +73,8 @@ exports.login = [
 
 // Controller for handling POST requests to create a new document
 exports.createDocument = [
-  // validateCreateDocument,
-  // checkValidationResult,
+  validateCreateDocument,
+  checkValidationResult,
   async (req, res) => {
     try {
       const saltRounds = parseInt(process.env.SALT_ROUNDS, 10) || 10;
@@ -107,6 +108,8 @@ exports.createDocument = [
 
 // Controller for handling PUT requests to update a document by ID
 exports.updateDocument = [
+  authenticate,
+  isAdmin,
   async (req, res) => {
   try {
     const document = await userService.updateDocument(req.params.id, req.body);
@@ -121,6 +124,8 @@ exports.updateDocument = [
 
 // Controller for handling DELETE requests to delete a document by ID
 exports.deleteDocument =[
+  authenticate,
+  isAdmin,
    async (req, res) => {
   try {
     const document = await userService.deleteDocument(req.params.id);

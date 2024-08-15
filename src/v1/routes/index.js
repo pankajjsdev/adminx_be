@@ -8,6 +8,7 @@ const user = require("../module/user/userRoute")
 // routes
 router.use('/episodes', episodesRoute)
 router.use('/categories', categories)
+router.use('/tags', tags)
 router.use('/user', user)
 
 
