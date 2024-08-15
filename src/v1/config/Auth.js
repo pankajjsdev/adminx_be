@@ -12,9 +12,6 @@ const authenticate = jwt({
     ) {
       return req.headers.access_token.split(" ")[1];
     }
-    //  else if (req.query && req.query.token) {
-    //   return req.query.token;
-    // }
     return null;
   },
 });

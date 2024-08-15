@@ -1,17 +1,14 @@
 
-const tagsService = require('./tagsService');
+const blogService = require('./blogService');
 const { sendErrorResponse, sendSuccessResponse } = require('../../common/responseHelper');
 const messages = require('../../common/messages.json');
-const {isAdmin, authenticate} = require("../../config/Auth")
 
 // Controller for handling GET requests to fetch all documents
 exports.getAllDocuments = [
-  authenticate,
-  isAdmin, 
    async (req, res) => {
   try {
-    const documents = await tagsService.getAllDocuments(req);
-    sendSuccessResponse(res, 200, 'tags list found', documents);
+    const documents = await blogService.getAllDocuments(req);
+    sendSuccessResponse(res, 200, 'blog list found', documents);
   } catch (error) {
     sendErrorResponse(res, 500, error);
   }
@@ -19,15 +16,13 @@ exports.getAllDocuments = [
 
 // Controller for handling GET requests to fetch a single document by ID
 exports.getDocumentById = [
-  authenticate,
-  isAdmin, 
   async (req, res) => {
   try {
-    const document = await tagsService.getDocumentById(req.params.id);
+    const document = await blogService.getDocumentById(req.params.id);
     if (!document) {
-      return sendErrorResponse(res, 404, 'tags not found');
+      return sendErrorResponse(res, 404, 'blog not found');
     }
-    sendSuccessResponse(res, 200, 'tags found', document);
+    sendSuccessResponse(res, 200, 'blog found', document);
   } catch (error) {
     sendErrorResponse(res, 500, error);
   }
@@ -35,12 +30,10 @@ exports.getDocumentById = [
 
 // Controller for handling POST requests to create a new document
 exports.createDocument = [
-  authenticate,
-  isAdmin, 
   async (req, res) => {
   try {
-    const document = await tagsService.createDocument(req.body);
-    sendSuccessResponse(res, 201, 'tags created successfully', document);
+    const document = await blogService.createDocument(req.body);
+    sendSuccessResponse(res, 201, 'blog created successfully', document);
   } catch (error) {
     sendErrorResponse(res, 500, error);
   }
@@ -48,15 +41,13 @@ exports.createDocument = [
 
 // Controller for handling PUT requests to update a document by ID
 exports.updateDocument = [
-  authenticate,
-  isAdmin, 
   async (req, res) => {
   try {
-    const document = await tagsService.updateDocument(req.params.id, req.body);
+    const document = await blogService.updateDocument(req.params.id, req.body);
     if (!document) {
-      return sendErrorResponse(res, 404, 'tags not found');
+      return sendErrorResponse(res, 404, 'blog not found');
     }
-    sendSuccessResponse(res, 200, 'tags updated successfully', document);
+    sendSuccessResponse(res, 200, 'blog updated successfully', document);
   } catch (error) {
     sendErrorResponse(res, 500, error);
   }
@@ -64,15 +55,13 @@ exports.updateDocument = [
 
 // Controller for handling DELETE requests to delete a document by ID
 exports.deleteDocument =[
-  authenticate,
-  isAdmin, 
    async (req, res) => {
   try {
-    const document = await tagsService.deleteDocument(req.params.id);
+    const document = await blogService.deleteDocument(req.params.id);
     if (!document) {
-      return sendErrorResponse(res, 404, 'tags not found');
+      return sendErrorResponse(res, 404, 'blog not found');
     }
-    sendSuccessResponse(res, 200, 'tags deleted successfully');
+    sendSuccessResponse(res, 200, 'blog deleted successfully');
   } catch (error) {
     sendErrorResponse(res, 500, error);
   }
